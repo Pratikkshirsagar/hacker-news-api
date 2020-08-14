@@ -19,7 +19,7 @@ async function getStoryData(idArry) {
   try {
     const stories = idArry.map(async (id) => {
       const { data } = await axios.get(
-        `https://hacker-news.firebaseio.com/v0/item/${id}.json?print=pretty`
+        `https://hacker-news.firebaseio.com/v0/item/${id}.json`
       );
 
       return data;
@@ -27,7 +27,6 @@ async function getStoryData(idArry) {
 
     Promise.all(stories)
       .then((data) => {
-        console.log(data);
         getTopStoriesSorted(data);
       })
       .catch((err) => {
