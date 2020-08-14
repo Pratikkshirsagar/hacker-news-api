@@ -31,7 +31,7 @@ async function getStoryData(idArry) {
         getTopStoriesSorted(data);
       })
       .catch((err) => {
-        console.log(err, '****');
+        console.log(err);
       });
   } catch (err) {
     console.log(err);
@@ -43,7 +43,6 @@ async function getTopStoriesSorted(storiesArr) {
     const sortedArr = storiesArr.sort((a, b) => b.score - a.score);
     const topTenStories = sortedArr.slice(0, 10);
     const filterStory = topTenStories.map((story) => {
-      console.log(story.id);
       delete story.descendants;
       delete story.kids;
       delete story.id;
@@ -60,8 +59,6 @@ async function getTopStoriesSorted(storiesArr) {
       await Stories.updateOne({ stories: filterStory });
 
       const pastData = await PastStories.find();
-
-      console.log(pastData);
 
       if (pastData.length === 0) {
         await PastStories.create({ stories: data[0].stories });

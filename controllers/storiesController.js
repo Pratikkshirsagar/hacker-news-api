@@ -15,7 +15,7 @@ exports.getTopStories = async (req, res) => {
       data: data[0].stories,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: 'fail', msg: err });
   }
 };
 
@@ -35,6 +35,6 @@ exports.getPastTopStories = async (req, res) => {
       data: data[0].stories,
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: 'fail', msg: err });
   }
 };

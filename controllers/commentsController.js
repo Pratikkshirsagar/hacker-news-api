@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+// filter the to ten comments
 exports.getTopComments = async (req, res) => {
   try {
     const storyId = req.params.id;
@@ -21,7 +22,7 @@ exports.getTopComments = async (req, res) => {
       });
     } else {
       return res
-        .status(401)
+        .status(404)
         .json({ status: 'error', msg: 'Comments not found' });
     }
 
@@ -31,8 +32,8 @@ exports.getTopComments = async (req, res) => {
 
         if (!result) {
           return res
-            .status(401)
-            .json({ status: 'error', msg: 'Comments not found' });
+            .status(404)
+            .json({ status: 'fail', msg: 'Comments not found' });
         }
 
         res
@@ -40,14 +41,14 @@ exports.getTopComments = async (req, res) => {
           .json({ status: 'success', count: result.length, data: result });
       })
       .catch((err) => {
-        res.status(401).json({ status: 'error', msg: err });
-        console.log(err);
+        res.status(400).json({ status: 'fail', msg: err });
       });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: 'fail', msg: err });
   }
 };
 
+// filter the comments
 async function filterComments(commentsArr) {
   try {
     const filtersComments = commentsArr.filter((comment) => {
@@ -81,11 +82,8 @@ async function filterComments(commentsArr) {
       finalSortedComments.push(sortedComments.slice(0, 10));
     }
 
-    // console.log(finalSortedComments[0]);
-    // console.log(finalSortedComments[0]);
-
     return finalSortedComments[0];
   } catch (err) {
-    console.log(err);
+    res.status(400).json({ status: 'fail', msg: err });
   }
 }

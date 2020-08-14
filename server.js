@@ -16,10 +16,15 @@ const app = express();
 // invoke the initial function
 getTopStories();
 
+// calling api every 10 mins for top 10 stories
+setInterval(() => {
+  getTopStories();
+}, 600000);
+
 //Global Middlewares
 
 // body parser
-app.use(express.json({ limit: '10kb' }));
+app.use(express.json());
 
 // loging the api
 app.use(morgan('dev'));
